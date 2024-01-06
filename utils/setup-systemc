@@ -53,6 +53,7 @@ case $version in
     2.3.2) url=https://www.accellera.org/images/downloads/standards/systemc/$src.tar.gz;;
     2.3.3) url=https://www.accellera.org/images/downloads/standards/systemc/$src.tar.gz;;
     2.3.4) url=https://github.com/accellera-official/systemc/archive/refs/tags/2.3.4.tar.gz;;
+    3.0.0_pub_rev_20231129) url=https://github.com/accellera-official/systemc/archive/refs/tags/3.0.0_pub_rev_20231129.tar.gz;;
     *) echo "Unknown SystemC version: $version"; exit 1;;
 esac
 
@@ -106,7 +107,7 @@ fi
 if [ ! -d $build ]; then
     mkdir -p $build && cd $build
     if [ -f ../$src/CMakeLists.txt ]; then
-        cmake -DCMAKE_INSTALL_PREFIX=$home -DCMAKE_BUILD_TYPE=$cmake_build ../$src
+        cmake -DCMAKE_INSTALL_PREFIX=$home -DCMAKE_BUILD_TYPE=$cmake_build $cmake_flags ../$src
     else
         ../$src/configure --prefix=$home $flags
     fi
