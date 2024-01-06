@@ -516,6 +516,12 @@ void on_start_of_simulation(function<void(void)> callback) {
     helper.start_of_sim.push_back(std::move(callback));
 }
 
+void on_end_of_simulation(function<void(void)> callback) {
+    helper_module& helper = helper_module::instance();
+    lock_guard<mutex> guard(helper.mtx);
+    helper.end_of_sim.push_back(std::move(callback));
+}
+
 void on_each_delta_cycle(function<void(void)> callback) {
     helper_module& helper = helper_module::instance();
     lock_guard<mutex> guard(helper.mtx);
