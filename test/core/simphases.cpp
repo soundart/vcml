@@ -56,10 +56,19 @@ public:
         wait(SC_ZERO_TIME);
         wait(SC_ZERO_TIME);
 
-        EXPECT_CALL(*this, do_each_delta_cycle()).Times(2); // delta + timed
+        EXPECT_CALL(*this, do_each_delta_cycle()).Times(1);
         EXPECT_CALL(*this, do_each_time_step()).Times(1);
 
         wait(1.0, SC_SEC);
+
+        // delta callback will be triggered once again before the simulation
+        // ends; the time callback will be triggered only for older versions
+        EXPECT_CALL(*this, do_each_delta_cycle()).Times(1);
+#if SYSTEMC_VERSION <= SYSTEMC_VERSION_2_3_1a
+        EXPECT_CALL(*this, do_each_time_step()).Times(1);
+#else
+        EXPECT_CALL(*this, do_each_time_step()).Times(0);
+#endif
     }
 };
 
